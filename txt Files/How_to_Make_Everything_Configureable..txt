@@ -1,0 +1,57 @@
+
+
+ ### Insider Handelsbot Aksiesiklus
+
+1. **Verkry Insider Handelsdata**
+
+1  - Kry die nuutste insider handelsdata van OpenInsider.
+
+2. **Sortering en Filtrering van Data**
+    - Filter aandele uit wat nie aan jou kriteria voldoen nie (bv. handelsgrootte, onlangse aktiwiteit).
+
+3. **Kry Huidige Aandelepryse**
+   - Verkry huidige pryse vir die geïdentifiseerde aandele van die Alpaca API.
+
+4. **Analiseer Beleggingsgeleenthede**
+   - Bepaal watter aandele die beste beleggingsgeleenthede bied op grond van:
+     - Insider koopaktiwiteit
+     - Huidige prys teenoor teiken koopprys
+     - Begrotingsbeperkings
+
+5. **Stel Koopdoelwitte**
+   - Stel teiken kooppryse vir geselekteerde aandele op grond van insider aankooppryse en gewenste prysverhoging.
+
+6. **Monitor Prysveranderinge**
+   - Hou voortdurend real-time prysopdaterings vir die geselekteerde aandele dop.
+
+7. **Voer Koopbestellings uit**
+   - As die huidige prys onder of gelyk aan die teiken koopprys val:
+     - Plaas 'n kooporder deur die Alpaca API.
+     - Log die transaksiedetaille.
+
+8. **Monitor Besitings**
+   - Vir gekoopte aandele, hou hul pryse voortdurend dop.
+   - Hou 'n oog op enige insider verkoopaktiwiteit.
+
+9. **Stel Verkoopvoorwaardes**
+   - Definieer voorwaardes vir verkoop (bv. teiken wins, insider verkoop).
+
+10. **Monitor Markpryse**
+    - Volg die markpryse van gekoopte aandele en wag vir 'n prysverandering.
+
+11. **Voer Verkoopbestellings uit**
+    - As die voorwaardes nagekom word:
+      - Plaas 'n verkooporder deur die Alpaca API.
+      - Log die transaksiedetaille.
+
+12. **Stuur Kennerings**
+    - Laat jou weet per e-pos of SMS vir uitgevoerde transaksies, belangrike prysveranderinge of belangrike insider aktiwiteite.
+
+13. **Log Prestasiedata**
+    - Registreer alle transaksies en prestasiemetrieke vir analise.
+
+14. **Pas Strategie Aan (Opsioneel)**
+    - Herhaal periodiek die prestasie en pas parameters of strategieë aan op grond van bevindings.
+
+15. **Wag en Herhaal**
+    - Pauseer vir 'n spesifieke interval (bv. 'n paar sekondes of minute) en herhaal dan die siklus vanaf stap 1.

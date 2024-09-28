@@ -1,0 +1,6 @@
+# requirements.txt
+
+alpaca-trade-api
+beautifulsoup4
+requests
+schedule
