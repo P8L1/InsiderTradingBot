@@ -1,20 +1,10 @@
-2024-10-20 17:30:45,659 - Current Alpaca balance: $100000.0
-2024-10-20 17:30:45,680 - [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
- * Running on http://127.0.0.1:5000
-2024-10-20 17:30:45,680 - [33mPress CTRL+C to quit[0m
-2024-10-20 17:30:45,681 -  * Restarting with stat
-2024-10-20 17:30:47,353 - Current Alpaca balance: $100000.0
-2024-10-20 17:30:47,369 -  * Debugger is active!
-2024-10-20 17:30:47,375 -  * Debugger PIN: 174-610-884
-2024-10-20 17:30:49,593 -  * Detected change in 'E:\\InsidertradingBot_try_2\\trading_bot.py', reloading
-2024-10-20 17:30:49,681 -  * Restarting with stat
-2024-10-20 17:30:51,885 - Current Alpaca balance: $100000.0
-2024-10-20 17:30:51,901 -  * Debugger is active!
-2024-10-20 17:30:51,906 -  * Debugger PIN: 174-610-884
-2024-10-20 17:30:57,828 - 127.0.0.1 - - [20/Oct/2024 17:30:57] "GET / HTTP/1.1" 200 -
-2024-10-20 17:30:57,921 - 127.0.0.1 - - [20/Oct/2024 17:30:57] "[36mGET /static/style.css HTTP/1.1[0m" 304 -
-2024-10-20 17:31:05,866 - Scraping insider data from http://openinsider.com/screener?s=&o=&pl=1&ph=&ll=&lh=&fd=14&fdr=&td=7&tdr=&fdlyl=&fdlyh=&daysago=&xp=1&vl=50&vh=&ocl=&och=&sic1=-1&sicl=100&sich=9999&isofficer=1&iscob=1&isceo=1&ispres=1&iscoo=1&iscfo=1&isgc=1&isvp=1&isdirector=1&istenpercent=1&isother=1&grp=0&nfl=&nfh=&nil=&nih=&nol=&noh=&v2l=&v2h=&oc2l=&oc2h=&sortcol=1&cnt=100&page=1
-2024-10-20 17:31:06,480 - Found 32 rows in the table.
-2024-10-20 17:31:06,481 - Scraped 0 stocks from insider data
-2024-10-20 17:31:06,481 - No significant stocks found in this cycle. Skipping trading.
-2024-10-20 17:31:06,481 - 127.0.0.1 - - [20/Oct/2024 17:31:06] "POST /start HTTP/1.1" 200 -
+2024-10-20 18:20:48,281 - Scraping insider data from http://openinsider.com/screener?s=&o=&pl=1&ph=&ll=&lh=&fd=14&fdr=&td=7&tdr=&fdlyl=&fdlyh=&daysago=&xp=1&vl=50&vh=&ocl=&och=&sic1=-1&sicl=100&sich=9999&isofficer=1&iscob=1&isceo=1&ispres=1&iscoo=1&iscfo=1&isgc=1&isvp=1&isdirector=1&istenpercent=1&isother=1&grp=0&nfl=&nfh=&nil=&nih=&nol=&noh=&v2l=&v2h=&oc2l=&oc2h=&sortcol=1&cnt=100&page=1
+2024-10-20 18:20:48,963 - Found 32 rows in the table.
+2024-10-20 18:20:48,964 - Scraped 0 stocks from insider data
+2024-10-20 18:20:48,964 - No significant stocks found in this cycle. Skipping trading.
+2024-10-20 18:20:48,964 - 127.0.0.1 - - [20/Oct/2024 18:20:48] "POST /start HTTP/1.1" 200 -
+2024-10-20 18:22:03,300 -  * Detected change in 'E:\\InsidertradingBot_try_2\\trading_bot.py', reloading
+2024-10-20 18:22:03,370 -  * Restarting with stat
+2024-10-20 18:22:05,167 - Current Alpaca balance: $100000.0
+2024-10-20 18:22:05,183 -  * Debugger is active!
+2024-10-20 18:22:05,188 -  * Debugger PIN: 174-610-884

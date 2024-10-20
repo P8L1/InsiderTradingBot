@@ -69,7 +69,6 @@ def scrape_openinsider(custom_url):
         dict: A dictionary where each key is a stock ticker, and the value is a list of insider transaction data.
     """
 
-    # Logging before scraping
     logging.info(f"Scraping insider data from {custom_url}")
 
     try:
@@ -81,76 +80,69 @@ def scrape_openinsider(custom_url):
         # Find the insider trading table
         table = soup.find("table", {"class": "tinytable"})
         if not table:
-            logging.error(
-                "Error: Unable to locate the insider trading table on the page."
-            )
+            logging.error("Error: Unable to locate the insider trading table on the page.")
             return {}
 
         insider_data = defaultdict(list)
         rows = table.find("tbody").find_all("tr")
 
-        # Log the number of rows found
         logging.info(f"Found {len(rows)} rows in the table.")
 
         # Loop through each row in the table
         for row in rows:
             cols = row.find_all("td")
-            if (
-                len(cols) < 12
-            ):  # Ensure the row has enough columns for the required fields
+
+            # Ensure there are enough columns (skip the first and last 4 columns)
+            if len(cols) < 17:
                 continue
 
             try:
-                ticker = cols[2].text.strip()  # Stock ticker
-                company_name = cols[3].text.strip()
-                insider_name = cols[4].text.strip()
-                title = cols[5].text.strip()
-                trade_type = cols[6].text.strip()
+                # Map the relevant columns (skip the first and last 4 columns)
+                insider_data_dict = {
+                    "filing_date": cols[1].text.strip(),
+                    "trade_date": cols[2].text.strip(),
+                    "ticker": cols[3].text.strip(),
+                    "company_name": cols[4].text.strip(),
+                    "insider_name": cols[5].text.strip(),
+                    "title": cols[6].text.strip(),
+                    "trade_type": cols[7].text.strip(),
+                    "price": cols[8].text.strip(),
+                    "qty": cols[9].text.strip(),
+                    "owned": cols[10].text.strip(),
+                    "own_change": cols[11].text.strip(),
+                    "total_value": cols[12].text.strip(),
+                }
 
-                # Extract and clean price, quantity, ΔOwn, and value fields
-                price_text = cols[7].text.replace("$", "").replace(",", "").strip()
-                qty_text = cols[8].text.replace(",", "").replace("+", "").strip()
-                own_change_text = (
-                    cols[9].text.replace("%", "").replace("+", "").strip()
-                )  # ΔOwn
-                value_text = (
-                    cols[10].text.replace("$", "").replace(",", "").strip()
-                )  # Value
-
-                # Convert extracted text to numbers
-                price = (
-                    float(price_text) if price_text.replace(".", "").isdigit() else None
-                )
-                qty = int(qty_text) if qty_text.isdigit() else None
-                own_change = (
-                    float(own_change_text)
-                    if own_change_text.replace(".", "").isdigit()
+                # Convert price, quantity, own_change, and total_value to appropriate types
+                insider_data_dict["price"] = (
+                    float(insider_data_dict["price"].replace("$", "").replace(",", ""))
+                    if insider_data_dict["price"].replace(".", "").isdigit()
                     else None
                 )
-                total_value = (
-                    float(value_text) if value_text.replace(".", "").isdigit() else None
+                insider_data_dict["qty"] = (
+                    int(insider_data_dict["qty"].replace(",", "").replace("+", ""))
+                    if insider_data_dict["qty"].isdigit()
+                    else None
+                )
+                insider_data_dict["own_change"] = (
+                    float(insider_data_dict["own_change"].replace("%", "").replace("+", ""))
+                    if insider_data_dict["own_change"].replace(".", "").isdigit()
+                    else None
+                )
+                insider_data_dict["total_value"] = (
+                    float(insider_data_dict["total_value"].replace("$", "").replace(",", ""))
+                    if insider_data_dict["total_value"].replace(".", "").isdigit()
+                    else None
                 )
 
-                # Ensure that all key fields are valid
+                # Ensure the necessary data is available before appending
                 if (
-                    price is not None
-                    and qty is not None
-                    and own_change is not None
-                    and total_value is not None
+                    insider_data_dict["price"] is not None
+                    and insider_data_dict["qty"] is not None
+                    and insider_data_dict["own_change"] is not None
+                    and insider_data_dict["total_value"] is not None
                 ):
-                    # Append the insider data for the ticker
-                    insider_data[ticker].append(
-                        {
-                            "company_name": company_name,
-                            "insider_name": insider_name,
-                            "title": title,
-                            "trade_type": trade_type,
-                            "price": price,
-                            "qty": qty,
-                            "own_change": own_change,  # ΔOwn
-                            "total_value": total_value,  # Value
-                        }
-                    )
+                    insider_data[insider_data_dict["ticker"]].append(insider_data_dict)
 
             except (ValueError, IndexError) as e:
                 logging.error(f"Error parsing row: {row} - {e}")
@@ -163,7 +155,6 @@ def scrape_openinsider(custom_url):
     except requests.RequestException as e:
         logging.error(f"Error fetching insider data: {e}")
         return {}
-
 
 class TradingBot:
     def __init__(self):
@@ -293,13 +284,28 @@ class TradingBot:
         for ticker, transactions in insider_data.items():
             total_value = sum(item["total_value"] for item in transactions)
             unique_insiders = len(set(item["insider_name"] for item in transactions))
-            avg_own_change = sum(item["own_change"] for item in transactions) / len(
-                transactions
+            avg_own_change = (
+                sum(item["own_change"] for item in transactions) / len(transactions)
+                if len(transactions) > 0
+                else 0
             )
-            logging.info(
-                f"Checking stock: {ticker}, Total Value: {total_value}, Unique Insiders: {unique_insiders}, Avg ΔOwn: {avg_own_change}"
-            )
-            # Filter stocks based on total value, number of unique insiders, and average ΔOwn
+
+            # Log why certain stocks are not passing filters
+            if total_value < min_value:
+                logging.info(
+                    f"Stock {ticker} excluded for low total value: {total_value}"
+                )
+                continue
+            if unique_insiders < min_insiders:
+                logging.info(
+                    f"Stock {ticker} excluded for low unique insiders: {unique_insiders}"
+                )
+                continue
+            if avg_own_change < min_own_change:
+                logging.info(
+                    f"Stock {ticker} excluded for low ownership change: {avg_own_change}"
+                )
+
             if (
                 total_value >= min_value
                 and unique_insiders >= min_insiders
