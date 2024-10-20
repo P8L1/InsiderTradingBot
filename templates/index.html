@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Trading Bot Dashboard</title>
+    <link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+    <div class="container">
+        <h1>Trading Bot Dashboard</h1>
+        <p>Budget: ${{ budget }}</p>
+
+        <h2>Current Positions</h2>
+        <table>
+            <thead>
+                <tr>
+                    <th>Stock Ticker</th>
+                    <th>Quantity</th>
+                    <th>Buy Price</th>
+                    <th>Current Price</th>
+                    <th>Gain/Loss (%)</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% if positions %}
+                    {% for ticker, data in positions.items() %}
+                    <tr>
+                        <td>{{ ticker }}</td>
+                        <td>{{ data['quantity'] }}</td>
+                        <td>${{ data['buy_price'] }}</td>
+                        <td>${{ data['current_price'] }}</td>
+                        <td>{{ data['gain_loss'] }}%</td>
+                    </tr>
+                    {% endfor %}
+                {% else %}
+                    <tr>
+                        <td colspan="5">No current positions.</td>
+                    </tr>
+                {% endif %}
+            </tbody>
+        </table>
+
+        <h2>Trade History</h2>
+        <table>
+            <thead>
+                <tr>
+                    <th>Type</th>
+                    <th>Stock Ticker</th>
+                    <th>Quantity</th>
+                    <th>Price</th>
+                    <th>Date</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% if trade_history %}
+                    {% for trade in trade_history %}
+                    <tr>
+                        <td>{{ trade['type'] }}</td>
+                        <td>{{ trade['ticker'] }}</td>
+                        <td>{{ trade['quantity'] }}</td>
+                        <td>${{ trade['price'] }}</td>
+                        <td>{{ trade['date'] }}</td>
+                    </tr>
+                    {% endfor %}
+                {% else %}
+                    <tr>
+                        <td colspan="5">No trades executed.</td>
+                    </tr>
+                {% endif %}
+            </tbody>
+        </table>
+
+        <h3>Start Trading</h3>
+        <form action="/start" method="POST">
+            <label for="url">Custom OpenInsider URL:</label>
+            <input type="text" name="url" required>
+            
+            <label for="gain_threshold">Gain Threshold (%):</label>
+            <input type="number" step="0.1" name="gain_threshold" value="3">
+            
+            <label for="drop_threshold">Drop Threshold (%):</label>
+            <input type="number" step="0.1" name="drop_threshold" value="1">
+            
+            <button type="submit">Start Trading</button>
+        </form>
+
+        <h3>Stop Trading</h3>
+        <button class="stop-btn" onclick="stopTrading()">Stop Trading</button>
+    </div>
+
+    <footer>
+        <p>Trading Bot Dashboard &copy; 2024</p>
+    </footer>
+
+    <script>
+        function stopTrading() {
+            fetch('/stop', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+            }).then(response => response.json())
+              .then(data => alert(data.message));
+        }
+    </script>
+</body>
+</html>
