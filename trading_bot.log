@@ -1,10 +1,45 @@
-2024-10-20 18:20:48,281 - Scraping insider data from http://openinsider.com/screener?s=&o=&pl=1&ph=&ll=&lh=&fd=14&fdr=&td=7&tdr=&fdlyl=&fdlyh=&daysago=&xp=1&vl=50&vh=&ocl=&och=&sic1=-1&sicl=100&sich=9999&isofficer=1&iscob=1&isceo=1&ispres=1&iscoo=1&iscfo=1&isgc=1&isvp=1&isdirector=1&istenpercent=1&isother=1&grp=0&nfl=&nfh=&nil=&nih=&nol=&noh=&v2l=&v2h=&oc2l=&oc2h=&sortcol=1&cnt=100&page=1
-2024-10-20 18:20:48,963 - Found 32 rows in the table.
-2024-10-20 18:20:48,964 - Scraped 0 stocks from insider data
-2024-10-20 18:20:48,964 - No significant stocks found in this cycle. Skipping trading.
-2024-10-20 18:20:48,964 - 127.0.0.1 - - [20/Oct/2024 18:20:48] "POST /start HTTP/1.1" 200 -
-2024-10-20 18:22:03,300 -  * Detected change in 'E:\\InsidertradingBot_try_2\\trading_bot.py', reloading
-2024-10-20 18:22:03,370 -  * Restarting with stat
-2024-10-20 18:22:05,167 - Current Alpaca balance: $100000.0
-2024-10-20 18:22:05,183 -  * Debugger is active!
-2024-10-20 18:22:05,188 -  * Debugger PIN: 174-610-884
+2024-10-20 19:55:50,001 - Current Alpaca balance: $100000.0
+2024-10-20 19:55:50,023 - [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on http://127.0.0.1:5000
+2024-10-20 19:55:50,024 - [33mPress CTRL+C to quit[0m
+2024-10-20 19:55:50,024 -  * Restarting with stat
+2024-10-20 19:55:51,779 - Current Alpaca balance: $100000.0
+2024-10-20 19:55:51,795 -  * Debugger is active!
+2024-10-20 19:55:51,800 -  * Debugger PIN: 174-610-884
+2024-10-20 19:55:55,714 - Scraping insider data from http://openinsider.com/screener?s=&o=&pl=1&ph=&ll=&lh=&fd=14&fdr=&td=7&tdr=&fdlyl=&fdlyh=&daysago=&xp=1&vl=50&vh=&ocl=&och=&sic1=-1&sicl=100&sich=9999&isofficer=1&iscob=1&isceo=1&ispres=1&iscoo=1&iscfo=1&isgc=1&isvp=1&isdirector=1&istenpercent=1&isother=1&grp=0&nfl=&nfh=&nil=&nih=&nol=&noh=&v2l=&v2h=&oc2l=&oc2h=&sortcol=1&cnt=100&page=1
+2024-10-20 19:55:56,321 - Found 32 rows in the table.
+2024-10-20 19:55:56,321 - Row 1 skipped: Found 17 columns. Data: ['M', '2024-10-18 19:41:15', '2024-10-16', 'SIRI', 'Sirius Xm Holdings Inc.', 'Berkshire Hathaway Inc', '10%', 'P - Purchase', '$27.05', '+1,557,702', '110,276,790', '+1%', '+$42,143,337', '', '', '', '']
+2024-10-20 19:55:56,321 - Row 2 skipped: Found 17 columns. Data: ['M', '2024-10-18 18:19:31', '2024-10-16', 'LGF', 'Lions Gate Entertainment Corp /cn/', 'Liberty 77 Capital L.P.', '10%', 'P - Purchase', '$6.74', '+280,523', '4,043,044', '+7%', '+$1,891,701', '', '', '', '']
+2024-10-20 19:55:56,322 - Row 3 skipped: Found 17 columns. Data: ['M', '2024-10-18 15:27:07', '2024-10-16', 'FBK', 'Fb Financial Corp', 'Ayers James W.', '10%', 'P - Purchase', '$50.34', '+4,000', '10,890,841', '0%', '+$201,340', '', '', '', '']
+2024-10-20 19:55:56,322 - Row 4 skipped: Found 17 columns. Data: ['', '2024-10-18 10:59:00', '2024-10-16', 'RELL', 'Richardson Electronics, Ltd.', 'Plante Paul J', 'Dir', 'P - Purchase', '$13.33', '+3,823', '13,029', '+42%', '+$50,961', '', '', '', '']
+2024-10-20 19:55:56,322 - Row 5 skipped: Found 17 columns. Data: ['D', '2024-10-16 16:07:29', '2024-10-16', 'ZIVO', 'Zivo Bioscience, Inc.', 'Payne John Bernard', 'Pres, CEO', 'P - Purchase', '$15.76', '+6,343', '7,909', '+405%', '+$99,966', '', '', '', '']
+2024-10-20 19:55:56,323 - Row 6 skipped: Found 17 columns. Data: ['', '2024-10-17 08:30:55', '2024-10-16', 'APRE', 'Aprea Therapeutics, Inc.', 'Duey Marc', 'Dir', 'P - Purchase', '$4.39', '+30,000', '240,715', '+14%', '+$131,700', '', '', '', '']
+2024-10-20 19:55:56,323 - Row 7 skipped: Found 17 columns. Data: ['M', '2024-10-17 17:11:29', '2024-10-15', 'DRUG', 'Bright Minds Biosciences Inc.', 'Cormorant Asset Management, LP', '10%', 'P - Purchase', '$7.65', '+422,591', '875,000', '+93%', '+$3,234,387', '', '', '', '']
+2024-10-20 19:55:56,323 - Row 8 skipped: Found 17 columns. Data: ['D', '2024-10-17 16:17:52', '2024-10-15', 'UPB', 'Upstream Bio, Inc.', 'Orbimed Advisors LLC', 'Dir, 10%', 'P - Purchase', '$17.00', '+825,000', '4,554,873', '+22%', '+$14,025,000', '', '', '', '']
+2024-10-20 19:55:56,323 - Row 9 skipped: Found 17 columns. Data: ['D', '2024-10-17 16:19:30', '2024-10-15', 'UPB', 'Upstream Bio, Inc.', 'Chimovits Erez', 'Dir, 10%', 'P - Purchase', '$17.00', '+825,000', '4,554,873', '+22%', '+$14,025,000', '', '', '', '']
+2024-10-20 19:55:56,324 - Row 10 skipped: Found 17 columns. Data: ['', '2024-10-17 16:29:31', '2024-10-15', 'FIS', 'Fidelity National Information Services, Inc.', 'Goldstein Jeffrey A', 'Dir', 'P - Purchase', '$88.25', '+626', '10,397', '+6%', '+$55,245', '', '', '', '']
+2024-10-20 19:55:56,324 - Row 11 skipped: Found 17 columns. Data: ['', '2024-10-17 17:00:04', '2024-10-15', 'FVR', 'Frontview Reit, Inc.', 'Preston Stephen', 'COB, Co-CEO, Co-Pres', 'P - Purchase', '$18.74', '+3,540', '100', '-103%', '+$66,340', '', '', '', '']
+2024-10-20 19:55:56,324 - Row 12 skipped: Found 17 columns. Data: ['D', '2024-10-17 17:05:20', '2024-10-15', 'CAMP', 'Camp4 Therapeutics Corp', 'Ah Equity Partners Bio I, L.L.C.', '10%', 'P - Purchase', '$11.00', '+727,272', '2,125,339', '+52%', '+$7,999,992', '', '', '', '']
+2024-10-20 19:55:56,325 - Row 13 skipped: Found 17 columns. Data: ['M', '2024-10-17 17:07:01', '2024-10-15', 'RRGB', 'Red Robin Gourmet Burgers Inc', 'Jcp Investment Management, LLC', 'See Footnote 1', 'P - Purchase', '$5.79', '+77,761', '1,014,963', '+8%', '+$450,339', '', '', '', '']
+2024-10-20 19:55:56,325 - Row 14 skipped: Found 17 columns. Data: ['M', '2024-10-17 17:11:13', '2024-10-15', 'RRGB', 'Red Robin Gourmet Burgers Inc', 'Jumana Capital Investments LLC', 'See Footnote 1', 'P - Purchase', '$5.79', '+37,761', '769,202', '+5%', '+$218,595', '', '', '', '']
+2024-10-20 19:55:56,325 - Row 15 skipped: Found 17 columns. Data: ['D', '2024-10-17 16:15:05', '2024-10-15', 'CAMP', 'Camp4 Therapeutics Corp', 'Enavate Sciences Gp, LLC', '10%', 'P - Purchase', '$11.00', '+1,363,636', '3,785,802', '+56%', '+$14,999,996', '', '', '', '']
+2024-10-20 19:55:56,326 - Row 16 skipped: Found 17 columns. Data: ['D', '2024-10-17 18:34:47', '2024-10-15', 'CAMP', 'Camp4 Therapeutics Corp', 'Northpond Ventures II Gp, LLC', '10%', 'P - Purchase', '$11.00', '+763,636', '2,238,244', '+52%', '+$8,399,996', '', '', '', '']
+2024-10-20 19:55:56,326 - Row 17 skipped: Found 17 columns. Data: ['AM', '2024-10-18 20:40:00', '2024-10-15', 'RRGB', 'Red Robin Gourmet Burgers Inc', 'Jumana Capital Investments LLC', 'See Footnote 1', 'P - Purchase', '$5.79', '+37,761', '769,202', '+5%', '+$218,595', '', '', '', '']
+2024-10-20 19:55:56,326 - Row 18 skipped: Found 17 columns. Data: ['D', '2024-10-17 16:14:38', '2024-10-15', 'CBLL', 'Ceribell, Inc.', 'Tpg Gp A, LLC', '10%', 'P - Purchase', '$17.00', '+380,268', '3,967,422', '+11%', '+$6,464,556', '', '', '', '']
+2024-10-20 19:55:56,326 - Row 19 skipped: Found 17 columns. Data: ['D', '2024-10-17 16:05:04', '2024-10-15', 'UPB', 'Upstream Bio, Inc.', 'Ai Upstream LLC', '10%', 'P - Purchase', '$17.00', '+1,175,000', '5,494,410', '+27%', '+$19,975,000', '', '', '', '']
+2024-10-20 19:55:56,327 - Row 20 skipped: Found 17 columns. Data: ['M', '2024-10-17 16:05:09', '2024-10-15', 'PBF', 'Pbf Energy Inc.', 'Control Empresarial De Capitales S.A. De C.V.', "Add'l Rep. Persons-see Ex.99-1, 10%", 'P - Purchase', '$31.75', '+1,002,000', '24,464,398', '+4%', '+$31,816,000', '', '', '', '']
+2024-10-20 19:55:56,327 - Row 21 skipped: Found 17 columns. Data: ['', '2024-10-17 10:06:14', '2024-10-15', 'RELL', 'Richardson Electronics, Ltd.', 'Benham James', 'Dir', 'P - Purchase', '$13.29', '+4,500', '13,706', '+49%', '+$59,805', '', '', '', '']
+2024-10-20 19:55:56,327 - Row 22 skipped: Found 17 columns. Data: ['', '2024-10-17 06:26:44', '2024-10-15', 'EONR', 'Eon Resources Inc.', 'Williams Mark', 'VP of Finance, Admin', 'P - Purchase', '$1.00', '+50,000', '95,000', '+111%', '+$50,000', '', '', '', '']
+2024-10-20 19:55:56,327 - Row 23 skipped: Found 17 columns. Data: ['', '2024-10-17 06:23:49', '2024-10-15', 'EONR', 'Eon Resources Inc.', 'Caravaggio Dante', 'CEO', 'P - Purchase', '$1.09', '+110,000', '649,440', '+20%', '+$120,100', '', '', '', '']
+2024-10-20 19:55:56,327 - Row 24 skipped: Found 17 columns. Data: ['D', '2024-10-16 16:18:06', '2024-10-15', 'CBLL', 'Ceribell, Inc.', 'Tammenoms Bakker Juliet', 'Dir', 'P - Purchase', '$17.00', '+237,234', '2,481,728', '+11%', '+$4,032,978', '', '', '', '']
+2024-10-20 19:55:56,328 - Row 25 skipped: Found 17 columns. Data: ['D', '2024-10-15 18:00:16', '2024-10-15', 'CAMP', 'Camp4 Therapeutics Corp', 'Polaris Management Co. Vii, L.L.C.', '10%', 'P - Purchase', '$11.00', '+909,090', '909,090', 'New', '+$9,999,990', '', '', '', '']
+2024-10-20 19:55:56,328 - Row 26 skipped: Found 17 columns. Data: ['D', '2024-10-15 17:56:35', '2024-10-15', 'CAMP', 'Camp4 Therapeutics Corp', '5Am Partners Vi, LLC', '10%', 'P - Purchase', '$11.00', '+909,090', '2,927,915', '+45%', '+$9,999,990', '', '', '', '']
+2024-10-20 19:55:56,328 - Row 27 skipped: Found 17 columns. Data: ['D', '2024-10-15 17:49:12', '2024-10-15', 'CAMP', 'Camp4 Therapeutics Corp', 'Nashat Amir', 'Dir, 10%', 'P - Purchase', '$11.00', '+909,090', '909,090', 'New', '+$9,999,990', '', '', '', '']
+2024-10-20 19:55:56,329 - Row 28 skipped: Found 17 columns. Data: ['D', '2024-10-15 17:48:17', '2024-10-15', 'CAMP', 'Camp4 Therapeutics Corp', 'Schwab Andrew J.', 'Dir, 10%', 'P - Purchase', '$11.00', '+909,090', '2,625,145', '+53%', '+$9,999,990', '', '', '', '']
+2024-10-20 19:55:56,329 - Row 29 skipped: Found 17 columns. Data: ['', '2024-10-15 06:04:43', '2024-10-14', 'MRVL', 'Marvell Technology, Inc.', 'Murphy Matthew J', 'COB, CEO', 'P - Purchase', '$77.63', '+13,000', '221,915', '+6%', '+$1,009,190', '', '', '', '']
+2024-10-20 19:55:56,329 - Row 30 skipped: Found 17 columns. Data: ['M', '2024-10-16 21:42:56', '2024-10-14', 'SNDA', 'Sonida Senior Living, Inc.', 'Simanovsky Michael', 'Dir, 10%', 'P - Purchase', '$24.07', '+34,448', '7,736,668', '0%', '+$829,086', '', '', '', '']
+2024-10-20 19:55:56,329 - Row 31 skipped: Found 17 columns. Data: ['M', '2024-10-16 16:27:58', '2024-10-14', 'TTSH', 'Tile Shop Holdings, Inc.', 'Fund 1 Investments, LLC', '10%', 'P - Purchase', '$6.61', '+24,500', '8,990,376', '0%', '+$161,936', '', '', '', '']
+2024-10-20 19:55:56,330 - Row 32 skipped: Found 17 columns. Data: ['M', '2024-10-16 10:26:19', '2024-10-14', 'BDCO', 'Blue Dolphin Energy Co', 'Carroll Jonathan P', 'CEO, Pres, 10%', 'P - Purchase', '$4.00', '+15,000', '4,024,779', '0%', '+$60,000', '', '', '', '']
+2024-10-20 19:55:56,330 - Scraped 0 stocks from insider data
+2024-10-20 19:55:56,330 - No significant stocks found in this cycle. Skipping trading.
+2024-10-20 19:55:56,330 - 127.0.0.1 - - [20/Oct/2024 19:55:56] "POST /start HTTP/1.1" 200 -

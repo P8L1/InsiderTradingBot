@@ -68,7 +68,6 @@ def scrape_openinsider(custom_url):
     Returns:
         dict: A dictionary where each key is a stock ticker, and the value is a list of insider transaction data.
     """
-
     logging.info(f"Scraping insider data from {custom_url}")
 
     try:
@@ -80,7 +79,9 @@ def scrape_openinsider(custom_url):
         # Find the insider trading table
         table = soup.find("table", {"class": "tinytable"})
         if not table:
-            logging.error("Error: Unable to locate the insider trading table on the page.")
+            logging.error(
+                "Error: Unable to locate the insider trading table on the page."
+            )
             return {}
 
         insider_data = defaultdict(list)
@@ -89,11 +90,22 @@ def scrape_openinsider(custom_url):
         logging.info(f"Found {len(rows)} rows in the table.")
 
         # Loop through each row in the table
-        for row in rows:
+        for row_index, row in enumerate(rows):
             cols = row.find_all("td")
+
+            # Log the raw HTML for the row for further inspection
+            logging.debug(f"Row {row_index + 1} HTML: {row}")
+
+            # Log column values for debugging
+            logging.debug(
+                f"Row {row_index + 1} columns: {[col.text.strip() for col in cols]}"
+            )
 
             # Ensure there are enough columns (skip the first and last 4 columns)
             if len(cols) < 17:
+                logging.warning(
+                    f"Row {row_index + 1} skipped: Found {len(cols)} columns. Data: {[col.text.strip() for col in cols]}"
+                )
                 continue
 
             try:
@@ -113,26 +125,57 @@ def scrape_openinsider(custom_url):
                     "total_value": cols[12].text.strip(),
                 }
 
+                # Log parsed data for each row
+                logging.debug(
+                    f"Parsed data for row {row_index + 1}: {insider_data_dict}"
+                )
+
                 # Convert price, quantity, own_change, and total_value to appropriate types
                 insider_data_dict["price"] = (
                     float(insider_data_dict["price"].replace("$", "").replace(",", ""))
-                    if insider_data_dict["price"].replace(".", "").isdigit()
+                    if insider_data_dict["price"]
+                    .replace(".", "")
+                    .replace(",", "")
+                    .isdigit()
                     else None
                 )
                 insider_data_dict["qty"] = (
                     int(insider_data_dict["qty"].replace(",", "").replace("+", ""))
-                    if insider_data_dict["qty"].isdigit()
+                    if insider_data_dict["qty"]
+                    .replace(",", "")
+                    .replace("+", "")
+                    .isdigit()
                     else None
                 )
                 insider_data_dict["own_change"] = (
-                    float(insider_data_dict["own_change"].replace("%", "").replace("+", ""))
-                    if insider_data_dict["own_change"].replace(".", "").isdigit()
+                    float(
+                        insider_data_dict["own_change"]
+                        .replace("%", "")
+                        .replace("+", "")
+                    )
+                    if insider_data_dict["own_change"]
+                    .replace(".", "")
+                    .replace("%", "")
+                    .replace("+", "")
+                    .isdigit()
                     else None
                 )
                 insider_data_dict["total_value"] = (
-                    float(insider_data_dict["total_value"].replace("$", "").replace(",", ""))
-                    if insider_data_dict["total_value"].replace(".", "").isdigit()
+                    float(
+                        insider_data_dict["total_value"]
+                        .replace("$", "")
+                        .replace(",", "")
+                    )
+                    if insider_data_dict["total_value"]
+                    .replace(".", "")
+                    .replace(",", "")
+                    .isdigit()
                     else None
+                )
+
+                # Log converted types
+                logging.debug(
+                    f"Converted types for row {row_index + 1}: {insider_data_dict}"
                 )
 
                 # Ensure the necessary data is available before appending
@@ -143,18 +186,28 @@ def scrape_openinsider(custom_url):
                     and insider_data_dict["total_value"] is not None
                 ):
                     insider_data[insider_data_dict["ticker"]].append(insider_data_dict)
+                    logging.info(
+                        f"Stock {insider_data_dict['ticker']} added successfully."
+                    )
+                else:
+                    logging.warning(
+                        f"Row {row_index + 1} skipped: Found {len(cols)} columns. Data: {[col.text.strip() for col in cols]}"
+                    )
+                    logging.debug(
+                        f"Missing data in row {row_index + 1}: {insider_data_dict}"
+                    )
 
             except (ValueError, IndexError) as e:
-                logging.error(f"Error parsing row: {row} - {e}")
+                logging.error(f"Error parsing row {row_index + 1}: {e}")
                 continue
 
-        # Log how many stocks were scraped successfully
         logging.info(f"Scraped {len(insider_data)} stocks from insider data")
         return insider_data
 
     except requests.RequestException as e:
         logging.error(f"Error fetching insider data: {e}")
         return {}
+
 
 class TradingBot:
     def __init__(self):
