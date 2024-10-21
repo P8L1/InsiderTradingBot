@@ -1,138 +1,84 @@
-2024-10-21 17:14:58,107 - Current Alpaca balance: $1000.0
-2024-10-21 17:14:58,133 - [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+
+2024-10-21 17:52:28,973 - Current Alpaca balance: $100.0
+2024-10-21 17:52:28,993 - [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
  * Running on http://127.0.0.1:5000
-2024-10-21 17:14:58,133 - [33mPress CTRL+C to quit[0m
-2024-10-21 17:14:58,134 -  * Restarting with stat
-2024-10-21 17:15:00,391 - Current Alpaca balance: $1000.0
-2024-10-21 17:15:00,407 -  * Debugger is active!
-2024-10-21 17:15:00,415 -  * Debugger PIN: 174-610-884
-2024-10-21 17:15:04,633 - 127.0.0.1 - - [21/Oct/2024 17:15:04] "GET / HTTP/1.1" 200 -
-2024-10-21 17:15:04,747 - 127.0.0.1 - - [21/Oct/2024 17:15:04] "[36mGET /static/style.css HTTP/1.1[0m" 304 -
-2024-10-21 17:15:10,561 - Scraping insider data from http://openinsider.com/screener?s=&o=&pl=1&ph=&ll=&lh=&fd=14&fdr=&td=7&tdr=&fdlyl=&fdlyh=&daysago=&xp=1&vl=50&vh=&ocl=&och=&sic1=-1&sicl=100&sich=9999&isofficer=1&iscob=1&isceo=1&ispres=1&iscoo=1&iscfo=1&isgc=1&isvp=1&isdirector=1&istenpercent=1&isother=1&grp=0&nfl=&nfh=&nil=&nih=&nol=&noh=&v2l=&v2h=&oc2l=&oc2h=&sortcol=1&cnt=100&page=1
-2024-10-21 17:15:11,157 - Found 28 rows in the table.
-2024-10-21 17:15:11,158 - Stock SIRI added successfully.
-2024-10-21 17:15:11,158 - Stock LGF added successfully.
-2024-10-21 17:15:11,158 - Stock ZIVO added successfully.
-2024-10-21 17:15:11,158 - Stock FBK added successfully.
-2024-10-21 17:15:11,158 - Stock RELL added successfully.
-2024-10-21 17:15:11,158 - Stock APRE added successfully.
-2024-10-21 17:15:11,158 - Stock UPB added successfully.
-2024-10-21 17:15:11,159 - Stock RRGB added successfully.
-2024-10-21 17:15:11,159 - Stock CAMP added successfully.
-2024-10-21 17:15:11,159 - Stock DRUG added successfully.
-2024-10-21 17:15:11,159 - Stock RRGB added successfully.
-2024-10-21 17:15:11,159 - Stock RRGB added successfully.
-2024-10-21 17:15:11,160 - Stock CAMP added successfully.
-2024-10-21 17:15:11,160 - Stock FVR added successfully.
-2024-10-21 17:15:11,160 - Stock FIS added successfully.
-2024-10-21 17:15:11,160 - Stock UPB added successfully.
-2024-10-21 17:15:11,160 - Stock CAMP added successfully.
-2024-10-21 17:15:11,160 - Stock CBLL added successfully.
-2024-10-21 17:15:11,160 - Stock CAMP added successfully.
-2024-10-21 17:15:11,160 - Stock UPB added successfully.
-2024-10-21 17:15:11,160 - Stock PBF added successfully.
-2024-10-21 17:15:11,160 - Stock RELL added successfully.
-2024-10-21 17:15:11,160 - Stock EONR added successfully.
-2024-10-21 17:15:11,161 - Stock EONR added successfully.
-2024-10-21 17:15:11,161 - Stock CBLL added successfully.
-2024-10-21 17:15:11,161 - Row 26 skipped: Missing critical data.
-2024-10-21 17:15:11,161 - Stock CAMP added successfully.
-2024-10-21 17:15:11,161 - Row 28 skipped: Missing critical data.
-2024-10-21 17:15:11,161 - Scraped 15 stocks from insider data
-2024-10-21 17:15:11,161 - Stock SIRI passed filters: Total value: 42143337.0, Unique insiders: 1, Avg \u0394Own: 1.0%
-2024-10-21 17:15:11,162 - 127.0.0.1 - - [21/Oct/2024 17:15:11] "POST /start HTTP/1.1" 200 -
-2024-10-21 17:15:11,162 - Stock LGF passed filters: Total value: 1891701.0, Unique insiders: 1, Avg \u0394Own: 7.0%
-2024-10-21 17:15:11,162 - Stock ZIVO passed filters: Total value: 99966.0, Unique insiders: 1, Avg \u0394Own: 405.0%
-2024-10-21 17:15:11,162 - Stock FBK has high total value but lower ownership change: 0.0%
-2024-10-21 17:15:11,162 - Stock RELL passed filters: Total value: 110766.0, Unique insiders: 2, Avg \u0394Own: 45.5%
-2024-10-21 17:15:11,162 - Stock APRE passed filters: Total value: 131700.0, Unique insiders: 1, Avg \u0394Own: 14.0%
-2024-10-21 17:15:11,163 - Stock UPB passed filters: Total value: 48025000.0, Unique insiders: 3, Avg \u0394Own: 23.666666666666668%
-2024-10-21 17:15:11,163 - Stock RRGB passed filters: Total value: 887529.0, Unique insiders: 2, Avg \u0394Own: 6.0%
-2024-10-21 17:15:11,163 - Stock CAMP passed filters: Total value: 51399964.0, Unique insiders: 5, Avg \u0394Own: 51.6%
-2024-10-21 17:15:11,163 - Stock DRUG passed filters: Total value: 3234387.0, Unique insiders: 1, Avg \u0394Own: 93.0%
-2024-10-21 17:15:11,163 - Stock FVR has high total value but lower ownership change: -103.0%
-2024-10-21 17:15:11,163 - Stock FIS passed filters: Total value: 55245.0, Unique insiders: 1, Avg \u0394Own: 6.0%
-2024-10-21 17:15:11,163 - Stock CBLL passed filters: Total value: 10497534.0, Unique insiders: 2, Avg \u0394Own: 11.0%
-2024-10-21 17:15:11,163 - Stock PBF passed filters: Total value: 31816000.0, Unique insiders: 1, Avg \u0394Own: 4.0%
-2024-10-21 17:15:11,163 - Stock EONR passed filters: Total value: 170100.0, Unique insiders: 2, Avg \u0394Own: 65.5%
-2024-10-21 17:15:11,922 - Attempting to buy 17 shares of CAMP at 11.14
-2024-10-21 17:15:11,922 - Budget before trade: $1000.0, Max spend: $200.0
-2024-10-21 17:15:12,189 - Bought 17 shares of CAMP at 11.14
-2024-10-21 17:15:12,189 - Recorded trade: buy 17 shares of CAMP at $11.14
-2024-10-21 17:15:12,929 - Attempting to buy 6 shares of UPB at 26.215
-2024-10-21 17:15:12,929 - Budget before trade: $810.62, Max spend: $162.12400000000002
-2024-10-21 17:15:13,176 - Bought 6 shares of UPB at 26.215
-2024-10-21 17:15:13,176 - Recorded trade: buy 6 shares of UPB at $26.215
-2024-10-21 17:15:13,907 - Attempting to buy 4 shares of SIRI at 27.37
-2024-10-21 17:15:13,908 - Budget before trade: $653.33, Max spend: $130.66600000000003
-2024-10-21 17:15:14,153 - Bought 4 shares of SIRI at 27.37
-2024-10-21 17:15:14,153 - Recorded trade: buy 4 shares of SIRI at $27.37
-2024-10-21 17:15:14,891 - Attempting to buy 3 shares of PBF at 33.0
-2024-10-21 17:15:14,891 - Budget before trade: $543.85, Max spend: $108.77000000000001
-2024-10-21 17:15:15,136 - Bought 3 shares of PBF at 33.0
-2024-10-21 17:15:15,136 - Recorded trade: buy 3 shares of PBF at $33.0
-2024-10-21 17:15:15,899 - Attempting to buy 3 shares of CBLL at 26.91
-2024-10-21 17:15:15,899 - Budget before trade: $444.85, Max spend: $88.97000000000001
-2024-10-21 17:15:16,145 - Bought 3 shares of CBLL at 26.91
-2024-10-21 17:15:16,145 - Recorded trade: buy 3 shares of CBLL at $26.91
-2024-10-21 17:15:16,857 - Attempting to buy 1 shares of DRUG at 53.48
-2024-10-21 17:15:16,857 - Budget before trade: $364.12, Max spend: $72.824
-2024-10-21 17:15:17,103 - Bought 1 shares of DRUG at 53.48
-2024-10-21 17:15:17,103 - Recorded trade: buy 1 shares of DRUG at $53.48
-2024-10-21 17:15:18,009 - Error fetching current price for LGF: list index out of range
-2024-10-21 17:15:18,009 - Skipping stock LGF due to insufficient budget or price issue.
-2024-10-21 17:15:18,765 - Attempting to buy 9 shares of RRGB at 6.36
-2024-10-21 17:15:18,765 - Budget before trade: $310.64, Max spend: $62.128
-2024-10-21 17:15:19,013 - Bought 9 shares of RRGB at 6.36
-2024-10-21 17:15:19,013 - Recorded trade: buy 9 shares of RRGB at $6.36
-2024-10-21 17:15:19,747 - Attempting to buy 37 shares of EONR at 1.358
-2024-10-21 17:15:19,748 - Budget before trade: $253.39999999999998, Max spend: $50.68
-2024-10-21 17:15:19,999 - Bought 37 shares of EONR at 1.358
-2024-10-21 17:15:20,000 - Recorded trade: buy 37 shares of EONR at $1.358
-2024-10-21 17:15:20,736 - Attempting to buy 9 shares of APRE at 4.31
-2024-10-21 17:15:20,736 - Budget before trade: $203.15399999999997, Max spend: $40.630799999999994
-2024-10-21 17:15:20,983 - Bought 9 shares of APRE at 4.31
-2024-10-21 17:15:20,983 - Recorded trade: buy 9 shares of APRE at $4.31
-2024-10-21 17:15:21,723 - Attempting to buy 2 shares of RELL at 13.69
-2024-10-21 17:15:21,723 - Budget before trade: $164.36399999999998, Max spend: $32.8728
-2024-10-21 17:15:21,972 - Bought 2 shares of RELL at 13.69
-2024-10-21 17:15:21,972 - Recorded trade: buy 2 shares of RELL at $13.69
-2024-10-21 17:15:23,091 - Error fetching current price for ZIVO: list index out of range
-2024-10-21 17:15:23,092 - Skipping stock ZIVO due to insufficient budget or price issue.
-2024-10-21 17:15:23,811 - Insufficient funds to buy FIS at 90.39
-2024-10-21 17:15:23,811 - Budget too low to continue buying. Stopping purchases.
-2024-10-21 17:15:23,811 - Starting price monitoring cycle...
-2024-10-21 17:15:24,051 - Market is open
-2024-10-21 17:16:02,937 - 127.0.0.1 - - [21/Oct/2024 17:16:02] "GET / HTTP/1.1" 200 -
-2024-10-21 17:16:02,950 - 127.0.0.1 - - [21/Oct/2024 17:16:02] "[36mGET /static/style.css HTTP/1.1[0m" 304 -
-2024-10-21 17:16:31,594 - Starting price monitoring cycle...
-2024-10-21 17:16:31,839 - Market is open
-2024-10-21 17:17:40,102 - Starting price monitoring cycle...
-2024-10-21 17:17:40,346 - Market is open
-2024-10-21 17:17:43,990 - UPB reached a new high price of 26.23
-2024-10-21 17:17:52,035 - RRGB reached a new high price of 6.39
-2024-10-21 17:18:56,336 - Starting price monitoring cycle...
-2024-10-21 17:18:57,075 - Market is open
-2024-10-21 17:20:14,468 - Starting price monitoring cycle...
-2024-10-21 17:20:15,614 - Market is open
-2024-10-21 17:20:18,968 - CAMP reached a new high price of 11.275
-2024-10-21 17:20:18,968 - Stock CAMP reached a 1.0% gain
-2024-10-21 17:20:19,728 - UPB reached a new high price of 26.3209
-2024-10-21 17:20:24,683 - DRUG reached a new high price of 54.07
-2024-10-21 17:20:24,683 - Stock DRUG reached a 1.0% gain
-2024-10-21 17:20:25,398 - RRGB reached a new high price of 6.42
-2024-10-21 17:20:31,526 - RELL reached a new high price of 13.695
-2024-10-21 17:21:31,527 - Starting price monitoring cycle...
-2024-10-21 17:21:34,261 - Market is open
-2024-10-21 17:21:35,023 - Stock CAMP reached a 1.0% gain
-2024-10-21 17:21:44,298 - CBLL reached a new high price of 27.0
-2024-10-21 17:21:48,881 - RRGB reached a new high price of 6.44
-2024-10-21 17:21:48,881 - Stock RRGB reached a 1.0% gain
-2024-10-21 17:21:50,814 - APRE reached a new high price of 4.425
-2024-10-21 17:21:50,814 - Stock APRE reached a 1.0% gain
-2024-10-21 17:22:53,334 - Starting price monitoring cycle...
-2024-10-21 17:22:54,087 - Market is open
-2024-10-21 17:22:54,828 - Stock CAMP reached a 1.0% gain
-2024-10-21 17:22:55,538 - UPB reached a new high price of 26.4
-2024-10-21 17:22:59,305 - Stock RRGB reached a 1.0% gain
-2024-10-21 17:23:00,781 - Stock APRE reached a 1.0% gain
+2024-10-21 17:52:28,993 - [33mPress CTRL+C to quit[0m
+2024-10-21 17:52:28,994 -  * Restarting with stat
+2024-10-21 17:52:30,958 - Current Alpaca balance: $100.0
+2024-10-21 17:52:30,975 -  * Debugger is active!
+2024-10-21 17:52:30,980 -  * Debugger PIN: 174-610-884
+2024-10-21 17:52:43,751 - 127.0.0.1 - - [21/Oct/2024 17:52:43] "GET / HTTP/1.1" 200 -
+2024-10-21 17:52:43,845 - 127.0.0.1 - - [21/Oct/2024 17:52:43] "[36mGET /static/style.css HTTP/1.1[0m" 304 -
+2024-10-21 17:52:52,598 - Scraping insider data from http://openinsider.com/screener?s=&o=&pl=1&ph=&ll=&lh=&fd=14&fdr=&td=7&tdr=&fdlyl=&fdlyh=&daysago=&xp=1&vl=50&vh=&ocl=&och=&sic1=-1&sicl=100&sich=9999&isofficer=1&iscob=1&isceo=1&ispres=1&iscoo=1&iscfo=1&isgc=1&isvp=1&isdirector=1&istenpercent=1&isother=1&grp=0&nfl=&nfh=&nil=&nih=&nol=&noh=&v2l=&v2h=&oc2l=&oc2h=&sortcol=1&cnt=100&page=1
+2024-10-21 17:52:53,215 - Found 28 rows in the table.
+2024-10-21 17:52:53,215 - Stock SIRI added successfully.
+2024-10-21 17:52:53,215 - Stock LGF added successfully.
+2024-10-21 17:52:53,215 - Stock ZIVO added successfully.
+2024-10-21 17:52:53,215 - Stock FBK added successfully.
+2024-10-21 17:52:53,215 - Stock RELL added successfully.
+2024-10-21 17:52:53,216 - Stock APRE added successfully.
+2024-10-21 17:52:53,216 - Stock UPB added successfully.
+2024-10-21 17:52:53,216 - Stock RRGB added successfully.
+2024-10-21 17:52:53,216 - Stock CAMP added successfully.
+2024-10-21 17:52:53,216 - Stock DRUG added successfully.
+2024-10-21 17:52:53,216 - Stock RRGB added successfully.
+2024-10-21 17:52:53,216 - Stock RRGB added successfully.
+2024-10-21 17:52:53,216 - Stock CAMP added successfully.
+2024-10-21 17:52:53,216 - Stock FVR added successfully.
+2024-10-21 17:52:53,216 - Stock FIS added successfully.
+2024-10-21 17:52:53,216 - Stock UPB added successfully.
+2024-10-21 17:52:53,216 - Stock CAMP added successfully.
+2024-10-21 17:52:53,216 - Stock CBLL added successfully.
+2024-10-21 17:52:53,216 - Stock CAMP added successfully.
+2024-10-21 17:52:53,216 - Stock UPB added successfully.
+2024-10-21 17:52:53,216 - Stock PBF added successfully.
+2024-10-21 17:52:53,217 - Stock RELL added successfully.
+2024-10-21 17:52:53,217 - Stock EONR added successfully.
+2024-10-21 17:52:53,217 - Stock EONR added successfully.
+2024-10-21 17:52:53,217 - Stock CBLL added successfully.
+2024-10-21 17:52:53,217 - Row 26 skipped: Missing critical data.
+2024-10-21 17:52:53,217 - Stock CAMP added successfully.
+2024-10-21 17:52:53,217 - Row 28 skipped: Missing critical data.
+2024-10-21 17:52:53,217 - Scraped 15 stocks from insider data
+2024-10-21 17:52:53,217 - Stock SIRI passed filters: Total value: 42143337.0, Unique insiders: 1, Avg \u0394Own: 1.0%
+2024-10-21 17:52:53,218 - 127.0.0.1 - - [21/Oct/2024 17:52:53] "POST /start HTTP/1.1" 200 -
+2024-10-21 17:52:53,218 - Stock LGF passed filters: Total value: 1891701.0, Unique insiders: 1, Avg \u0394Own: 7.0%
+2024-10-21 17:52:53,218 - Stock ZIVO passed filters: Total value: 99966.0, Unique insiders: 1, Avg \u0394Own: 405.0%
+2024-10-21 17:52:53,218 - Stock FBK has high total value but lower ownership change: 0.0%
+2024-10-21 17:52:53,218 - Stock RELL passed filters: Total value: 110766.0, Unique insiders: 2, Avg \u0394Own: 45.5%
+2024-10-21 17:52:53,218 - Stock APRE passed filters: Total value: 131700.0, Unique insiders: 1, Avg \u0394Own: 14.0%
+2024-10-21 17:52:53,218 - Stock UPB passed filters: Total value: 48025000.0, Unique insiders: 3, Avg \u0394Own: 23.666666666666668%
+2024-10-21 17:52:53,218 - Stock RRGB passed filters: Total value: 887529.0, Unique insiders: 2, Avg \u0394Own: 6.0%
+2024-10-21 17:52:53,218 - Stock CAMP passed filters: Total value: 51399964.0, Unique insiders: 5, Avg \u0394Own: 51.6%
+2024-10-21 17:52:53,218 - Stock DRUG passed filters: Total value: 3234387.0, Unique insiders: 1, Avg \u0394Own: 93.0%
+2024-10-21 17:52:53,218 - Stock FVR has high total value but lower ownership change: -103.0%
+2024-10-21 17:52:53,218 - Stock FIS passed filters: Total value: 55245.0, Unique insiders: 1, Avg \u0394Own: 6.0%
+2024-10-21 17:52:53,218 - Stock CBLL passed filters: Total value: 10497534.0, Unique insiders: 2, Avg \u0394Own: 11.0%
+2024-10-21 17:52:53,218 - Stock PBF passed filters: Total value: 31816000.0, Unique insiders: 1, Avg \u0394Own: 4.0%
+2024-10-21 17:52:53,218 - Stock EONR passed filters: Total value: 170100.0, Unique insiders: 2, Avg \u0394Own: 65.5%
+2024-10-21 17:52:54,004 - Attempting to buy 5 shares of CAMP at 11.27
+2024-10-21 17:52:54,004 - Budget before trade: $100.0, Max spend: $60.0
+2024-10-21 17:52:54,235 - Bought 5 shares of CAMP at 11.27
+2024-10-21 17:52:54,235 - Recorded trade: buy 5 shares of CAMP at $11.27
+2024-10-21 17:52:54,987 - Insufficient funds to buy UPB at 26.78
+2024-10-21 17:52:55,751 - Insufficient funds to buy SIRI at 27.468
+2024-10-21 17:52:56,480 - Insufficient funds to buy PBF at 32.795
+2024-10-21 17:52:57,218 - Insufficient funds to buy CBLL at 27.12
+2024-10-21 17:52:57,578 - 127.0.0.1 - - [21/Oct/2024 17:52:57] "GET / HTTP/1.1" 200 -
+2024-10-21 17:52:57,598 - 127.0.0.1 - - [21/Oct/2024 17:52:57] "[36mGET /static/style.css HTTP/1.1[0m" 304 -
+2024-10-21 17:52:57,987 - Skipping stock DRUG due to insufficient budget or price issue.
+2024-10-21 17:52:58,742 - Error fetching current price for LGF: list index out of range
+2024-10-21 17:52:58,742 - Skipping stock LGF due to insufficient budget or price issue.
+2024-10-21 17:52:59,492 - Attempting to buy 4 shares of RRGB at 6.415
+2024-10-21 17:52:59,494 - Budget before trade: $43.650000000000006, Max spend: $26.19
+2024-10-21 17:52:59,723 - Bought 4 shares of RRGB at 6.415
+2024-10-21 17:52:59,723 - Recorded trade: buy 4 shares of RRGB at $6.415
+2024-10-21 17:53:00,469 - Attempting to buy 7 shares of EONR at 1.4
+2024-10-21 17:53:00,469 - Budget before trade: $17.990000000000006, Max spend: $10.794000000000002
+2024-10-21 17:53:00,701 - Bought 7 shares of EONR at 1.4
+2024-10-21 17:53:00,702 - Recorded trade: buy 7 shares of EONR at $1.4
+2024-10-21 17:53:01,416 - Insufficient funds to buy APRE at 4.4
+2024-10-21 17:53:02,193 - Skipping stock RELL due to insufficient budget or price issue.
+2024-10-21 17:56:49,161 - 127.0.0.1 - - [21/Oct/2024 17:56:49] "GET / HTTP/1.1" 200 -
+2024-10-21 17:56:49,179 - 127.0.0.1 - - [21/Oct/2024 17:56:49] "[36mGET /static/style.css HTTP/1.1[0m" 304 -
+2024-10-21 17:57:00,998 - RRGB reached a new high price of 6.43

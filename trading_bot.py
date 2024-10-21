@@ -202,7 +202,7 @@ class TradingBot:
             logging.error(f"Error fetching Alpaca account balance: {e}")
             return 0
 
-    def buy_stock(self, ticker, price, max_position_size=0.2):
+    def buy_stock(self, ticker, price, max_position_size=0.6):
         if ticker in self.positions:
             logging.info(f"Already holding position in {ticker}, skipping buy.")
             return
@@ -260,7 +260,6 @@ class TradingBot:
         self, gain_threshold=GAIN_THRESHOLD, drop_threshold=DROP_THRESHOLD
     ):
         while self.positions and self.is_running:
-            logging.info("Starting price monitoring cycle...")
             if self.is_market_open():
                 for ticker, info in self.positions.items():
                     current_price = self.get_current_price(ticker)
@@ -286,7 +285,7 @@ class TradingBot:
                             self.sell_stock(ticker)
             else:
                 logging.info("Market is closed, skipping price monitoring.")
-            time.sleep(60)  # Monitor every 60 seconds
+            time.sleep(1)  # Monitor every 60 seconds
 
     def get_current_price(self, ticker):
         try:
@@ -371,7 +370,7 @@ class TradingBot:
     def is_market_open(self):
         try:
             clock = self.api.get_clock()
-            logging.info(f"Market is {'open' if clock.is_open else 'closed'}")
+            # logging.info(f"Market is {'open' if clock.is_open else 'closed'}")
             return clock.is_open
         except Exception as e:
             logging.error(f"Error fetching market open status: {e}")
