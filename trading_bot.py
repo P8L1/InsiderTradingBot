@@ -2,11 +2,16 @@ import requests
 from bs4 import BeautifulSoup
 from collections import defaultdict
 from datetime import datetime
+from alpaca.data.timeframe import TimeFrame, TimeFrameUnit
+from alpaca.data.historical import StockHistoricalDataClient
+from alpaca.data.requests import StockBarsRequest
+from alpaca.data.timeframe import TimeFrame, TimeFrameUnit
 import alpaca_trade_api as tradeapi
 import time
 import logging
 import json
 import threading
+import re
 
 # Set up logging
 logging.basicConfig(
@@ -33,6 +38,122 @@ lock = threading.Lock()
 trade_history = []
 
 
+def clean_and_convert(value, value_type="float"):
+    """
+    Cleans a string value by removing unwanted characters and attempts to convert to a given type.
+    Args:
+        value (str): The string value to clean and convert.
+        value_type (str): The desired type for conversion ("float" or "int").
+    Returns:
+        Converted value if successful, or None if conversion fails.
+    """
+    # Use regular expressions to extract the numeric parts
+    cleaned_value = re.sub(r"[^\d.-]", "", value)
+
+    try:
+        if value_type == "float":
+            return float(cleaned_value) if cleaned_value else None
+        elif value_type == "int":
+            return int(cleaned_value) if cleaned_value else None
+    except ValueError as e:
+        logging.error(f"Conversion error: {e} for value: {value}")
+        return None
+
+
+# Function to scrape OpenInsider data
+def scrape_openinsider(custom_url):
+    logging.info(f"Scraping insider data from {custom_url}")
+
+    try:
+        response = requests.get(custom_url)
+        response.raise_for_status()
+        soup = BeautifulSoup(response.text, "html.parser")
+
+        table = soup.find("table", {"class": "tinytable"})
+        if not table:
+            logging.error(
+                "Error: Unable to locate the insider trading table on the page."
+            )
+            return {}
+
+        insider_data = defaultdict(list)
+        rows = table.find("tbody").find_all("tr")
+
+        logging.info(f"Found {len(rows)} rows in the table.")
+
+        for row_index, row in enumerate(rows):
+            cols = row.find_all("td")
+
+            if len(cols) < 17:
+                logging.warning(
+                    f"Row {row_index + 1} skipped: Found {len(cols)} columns. Data: {[col.text.strip() for col in cols]}"
+                )
+                continue
+
+            try:
+                insider_data_dict = {
+                    "filing_date": cols[1].text.strip(),
+                    "trade_date": cols[2].text.strip(),
+                    "ticker": cols[3].text.strip(),
+                    "company_name": cols[4].text.strip(),
+                    "insider_name": cols[5].text.strip(),
+                    "title": cols[6].text.strip(),
+                    "trade_type": cols[7].text.strip(),
+                    "price": cols[8].text.strip(),
+                    "qty": cols[9].text.strip(),
+                    "owned": cols[10].text.strip(),
+                    "own_change": cols[11].text.strip(),
+                    "total_value": cols[12].text.strip(),
+                }
+
+                # Log parsed data for debugging
+                logging.debug(
+                    f"Parsed data for row {row_index + 1}: {insider_data_dict}"
+                )
+
+                # Use clean_and_convert to clean and convert the values
+                insider_data_dict["price"] = clean_and_convert(
+                    insider_data_dict["price"], "float"
+                )
+                insider_data_dict["qty"] = clean_and_convert(
+                    insider_data_dict["qty"], "int"
+                )
+                insider_data_dict["own_change"] = clean_and_convert(
+                    insider_data_dict["own_change"], "float"
+                )
+                insider_data_dict["total_value"] = clean_and_convert(
+                    insider_data_dict["total_value"], "float"
+                )
+
+                if (
+                    insider_data_dict["price"] is not None
+                    and insider_data_dict["qty"] is not None
+                    and insider_data_dict["own_change"] is not None
+                    and insider_data_dict["total_value"] is not None
+                ):
+                    insider_data[insider_data_dict["ticker"]].append(insider_data_dict)
+                    logging.info(
+                        f"Stock {insider_data_dict['ticker']} added successfully."
+                    )
+                else:
+                    logging.warning(
+                        f"Row {row_index + 1} skipped: Missing critical data."
+                    )
+
+            except (ValueError, TypeError) as e:
+                logging.error(
+                    f"Error converting data for {insider_data_dict.get('ticker', 'unknown')}: {e}"
+                )
+            continue
+
+        logging.info(f"Scraped {len(insider_data)} stocks from insider data")
+        return insider_data
+
+    except requests.RequestException as e:
+        logging.error(f"Error fetching insider data: {e}")
+        return {}
+
+
 def record_trade(trade_type, ticker, quantity, price):
     """
     Records a trade in the trade history.
@@ -57,156 +178,6 @@ def record_trade(trade_type, ticker, quantity, price):
     logging.info(
         f"Recorded trade: {trade_type} {quantity} shares of {ticker} at ${price}"
     )
-
-
-# Function to scrape OpenInsider data
-def scrape_openinsider(custom_url):
-    """
-    Scrapes insider trading data from OpenInsider.
-    Args:
-        custom_url (str): The URL from OpenInsider with filters applied.
-    Returns:
-        dict: A dictionary where each key is a stock ticker, and the value is a list of insider transaction data.
-    """
-    logging.info(f"Scraping insider data from {custom_url}")
-
-    try:
-        # Make the HTTP request to OpenInsider
-        response = requests.get(custom_url)
-        response.raise_for_status()  # Raise exception if the request was unsuccessful
-        soup = BeautifulSoup(response.text, "html.parser")
-
-        # Find the insider trading table
-        table = soup.find("table", {"class": "tinytable"})
-        if not table:
-            logging.error(
-                "Error: Unable to locate the insider trading table on the page."
-            )
-            return {}
-
-        insider_data = defaultdict(list)
-        rows = table.find("tbody").find_all("tr")
-
-        logging.info(f"Found {len(rows)} rows in the table.")
-
-        # Loop through each row in the table
-        for row_index, row in enumerate(rows):
-            cols = row.find_all("td")
-
-            # Log the raw HTML for the row for further inspection
-            logging.debug(f"Row {row_index + 1} HTML: {row}")
-
-            # Log column values for debugging
-            logging.debug(
-                f"Row {row_index + 1} columns: {[col.text.strip() for col in cols]}"
-            )
-
-            # Ensure there are enough columns (skip the first and last 4 columns)
-            if len(cols) < 17:
-                logging.warning(
-                    f"Row {row_index + 1} skipped: Found {len(cols)} columns. Data: {[col.text.strip() for col in cols]}"
-                )
-                continue
-
-            try:
-                # Map the relevant columns (skip the first and last 4 columns)
-                insider_data_dict = {
-                    "filing_date": cols[1].text.strip(),
-                    "trade_date": cols[2].text.strip(),
-                    "ticker": cols[3].text.strip(),
-                    "company_name": cols[4].text.strip(),
-                    "insider_name": cols[5].text.strip(),
-                    "title": cols[6].text.strip(),
-                    "trade_type": cols[7].text.strip(),
-                    "price": cols[8].text.strip(),
-                    "qty": cols[9].text.strip(),
-                    "owned": cols[10].text.strip(),
-                    "own_change": cols[11].text.strip(),
-                    "total_value": cols[12].text.strip(),
-                }
-
-                # Log parsed data for each row
-                logging.debug(
-                    f"Parsed data for row {row_index + 1}: {insider_data_dict}"
-                )
-
-                # Convert price, quantity, own_change, and total_value to appropriate types
-                insider_data_dict["price"] = (
-                    float(insider_data_dict["price"].replace("$", "").replace(",", ""))
-                    if insider_data_dict["price"]
-                    .replace(".", "")
-                    .replace(",", "")
-                    .isdigit()
-                    else None
-                )
-                insider_data_dict["qty"] = (
-                    int(insider_data_dict["qty"].replace(",", "").replace("+", ""))
-                    if insider_data_dict["qty"]
-                    .replace(",", "")
-                    .replace("+", "")
-                    .isdigit()
-                    else None
-                )
-                insider_data_dict["own_change"] = (
-                    float(
-                        insider_data_dict["own_change"]
-                        .replace("%", "")
-                        .replace("+", "")
-                    )
-                    if insider_data_dict["own_change"]
-                    .replace(".", "")
-                    .replace("%", "")
-                    .replace("+", "")
-                    .isdigit()
-                    else None
-                )
-                insider_data_dict["total_value"] = (
-                    float(
-                        insider_data_dict["total_value"]
-                        .replace("$", "")
-                        .replace(",", "")
-                    )
-                    if insider_data_dict["total_value"]
-                    .replace(".", "")
-                    .replace(",", "")
-                    .isdigit()
-                    else None
-                )
-
-                # Log converted types
-                logging.debug(
-                    f"Converted types for row {row_index + 1}: {insider_data_dict}"
-                )
-
-                # Ensure the necessary data is available before appending
-                if (
-                    insider_data_dict["price"] is not None
-                    and insider_data_dict["qty"] is not None
-                    and insider_data_dict["own_change"] is not None
-                    and insider_data_dict["total_value"] is not None
-                ):
-                    insider_data[insider_data_dict["ticker"]].append(insider_data_dict)
-                    logging.info(
-                        f"Stock {insider_data_dict['ticker']} added successfully."
-                    )
-                else:
-                    logging.warning(
-                        f"Row {row_index + 1} skipped: Found {len(cols)} columns. Data: {[col.text.strip() for col in cols]}"
-                    )
-                    logging.debug(
-                        f"Missing data in row {row_index + 1}: {insider_data_dict}"
-                    )
-
-            except (ValueError, IndexError) as e:
-                logging.error(f"Error parsing row {row_index + 1}: {e}")
-                continue
-
-        logging.info(f"Scraped {len(insider_data)} stocks from insider data")
-        return insider_data
-
-    except requests.RequestException as e:
-        logging.error(f"Error fetching insider data: {e}")
-        return {}
 
 
 class TradingBot:
@@ -318,8 +289,20 @@ class TradingBot:
 
     def get_current_price(self, ticker):
         try:
-            bar = self.api.get_bars(ticker, "minute", limit=1).df.iloc[0]
-            return bar.c
+            # Initialize the StockHistoricalDataClient with your API key and secret
+            client = StockHistoricalDataClient(API_KEY, SECRET_KEY)
+
+            # Define the timeframe (1 Day) and make the request
+            request_params = StockBarsRequest(
+                symbol_or_symbols=ticker, timeframe=TimeFrame(1, TimeFrameUnit.Day), limit=1
+            )
+
+            # Fetch the bar data
+            bars = client.get_stock_bars(request_params)
+            bar = bars[ticker][0]  # Get the first result
+
+            # Return the closing price
+            return bar.close
         except Exception as e:
             logging.error(f"Error fetching current price for {ticker}: {e}")
             return 0
@@ -331,8 +314,10 @@ class TradingBot:
         min_insiders=MIN_INSIDERS,
         min_own_change=5,
     ):
-
         significant_stocks = []
+
+        # List to temporarily hold stocks that meet value criteria but not own_change
+        lower_own_change_stocks = []
 
         for ticker, transactions in insider_data.items():
             total_value = sum(item["total_value"] for item in transactions)
@@ -349,25 +334,36 @@ class TradingBot:
                     f"Stock {ticker} excluded for low total value: {total_value}"
                 )
                 continue
+
             if unique_insiders < min_insiders:
                 logging.info(
                     f"Stock {ticker} excluded for low unique insiders: {unique_insiders}"
                 )
                 continue
-            if avg_own_change < min_own_change:
-                logging.info(
-                    f"Stock {ticker} excluded for low ownership change: {avg_own_change}"
-                )
 
-            if (
-                total_value >= min_value
-                and unique_insiders >= min_insiders
-                and avg_own_change >= min_own_change
-            ):
-                significant_stocks.append(ticker)
+            if avg_own_change < min_own_change:
+                # If the stock has high value but lower ownership change, hold it for secondary consideration
+                lower_own_change_stocks.append((ticker, total_value, avg_own_change))
                 logging.info(
-                    f"Stock {ticker} passed filters: Total value: {total_value}, Unique insiders: {unique_insiders}, Avg ΔOwn: {avg_own_change}%"
+                    f"Stock {ticker} has high total value but lower ownership change: {avg_own_change}%"
                 )
+                continue
+
+            # If both value and ownership change pass, consider it a significant stock
+            significant_stocks.append(ticker)
+            logging.info(
+                f"Stock {ticker} passed filters: Total value: {total_value}, Unique insiders: {unique_insiders}, Avg ΔOwn: {avg_own_change}%"
+            )
+
+        # If no stocks met both conditions, prioritize the ones with high value, even if own_change is lower
+        if not significant_stocks and lower_own_change_stocks:
+            # Sort lower-own-change stocks by total value in descending order
+            lower_own_change_stocks.sort(key=lambda x: x[1], reverse=True)
+            top_stock = lower_own_change_stocks[0]
+            significant_stocks.append(top_stock[0])
+            logging.info(
+                f"Prioritizing stock {top_stock[0]} based on high total value despite lower ownership change: {top_stock[2]}%"
+            )
 
         return significant_stocks
 
@@ -400,19 +396,29 @@ class TradingBot:
                 time.sleep(300)  # Wait for 5 minutes before repeating the cycle
                 continue
 
-            for ticker in significant_stocks:
-                price = self.get_current_price(ticker)
-                if self.budget > 0 and price > 0:
-                    self.buy_stock(ticker, price)
-                else:
-                    logging.info("Insufficient budget or price issue, skipping stock.")
-                    break
-            self.monitor_prices(
-                gain_threshold=gain_threshold, drop_threshold=drop_threshold
-            )
+            # Calculate how to divide the budget between stocks
+            total_stocks = len(significant_stocks)
+            if total_stocks > 0:
+                budget_per_stock = self.budget / total_stocks
 
-            logging.info("Completed a trading cycle, repeating...")
-            time.sleep(300)  # Wait for 5 minutes before repeating the cycle
+                for ticker in significant_stocks:
+                    price = self.get_current_price(ticker)
+                    if self.budget > 0 and price > 0:
+                        quantity = int(budget_per_stock / price)
+                        if quantity > 0:
+                            self.buy_stock(ticker, price)
+                        else:
+                            logging.info(f"Insufficient funds to buy {ticker} at {price}")
+                    else:
+                        logging.info("Insufficient budget or price issue, skipping stock.")
+
+        # Monitor prices after attempting to buy
+        self.monitor_prices(
+            gain_threshold=gain_threshold, drop_threshold=drop_threshold
+        )
+
+        logging.info("Completed a trading cycle, repeating...")
+        time.sleep(300)  # Wait for 5 minutes before repeating the cycle
 
     def stop(self):
         logging.info("Stopping the trading bot...")
