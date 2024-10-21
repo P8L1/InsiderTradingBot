@@ -1,6 +1,6 @@
 {
-    "alpaca_api_key": "PKFKXKAWIEY4XQ5KAFM0",
-    "alpaca_secret_key": "dlKtzIK6bWbGNF9M9l9cbP3XesvSrGUcwoqc2hFo",
+    "alpaca_api_key": "PK4006Q6MMCYP5PCA3FL",
+    "alpaca_secret_key": "5AAAi6k7BkXbxPZsTZ6eEr7Pt7fkcHGUMN9NHFo3",
     "alpaca_base_url": "https://paper-api.alpaca.markets",
     "min_value": 50000,
     "min_insiders": 1,

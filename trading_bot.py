@@ -184,6 +184,7 @@ class TradingBot:
     def __init__(self):
         self.api = tradeapi.REST(API_KEY, SECRET_KEY, BASE_URL, api_version="v2")
         self.budget = self.get_budget()
+        self.original_budget = self.budget  # Save the original budget
         self.positions = {}  # Track bought stocks
         self.is_running = False  # Flag to control whether the bot is running
         pass
@@ -330,40 +331,40 @@ class TradingBot:
 
             # Log why certain stocks are not passing filters
             if total_value < min_value:
-                logging.info(
-                    f"Stock {ticker} excluded for low total value: {total_value}"
-                )
+                logging.info(f"Stock {ticker} excluded for low total value: {total_value}")
                 continue
 
             if unique_insiders < min_insiders:
-                logging.info(
-                    f"Stock {ticker} excluded for low unique insiders: {unique_insiders}"
-                )
+                logging.info(f"Stock {ticker} excluded for low unique insiders: {unique_insiders}")
                 continue
 
             if avg_own_change < min_own_change:
                 # If the stock has high value but lower ownership change, hold it for secondary consideration
-                lower_own_change_stocks.append((ticker, total_value, avg_own_change))
-                logging.info(
-                    f"Stock {ticker} has high total value but lower ownership change: {avg_own_change}%"
-                )
+                lower_own_change_stocks.append({
+                    'ticker': ticker,
+                    'total_value': total_value,
+                    'avg_own_change': avg_own_change,
+                    'unique_insiders': unique_insiders
+                })
+                logging.info(f"Stock {ticker} has high total value but lower ownership change: {avg_own_change}%")
                 continue
 
-            # If both value and ownership change pass, consider it a significant stock
-            significant_stocks.append(ticker)
-            logging.info(
-                f"Stock {ticker} passed filters: Total value: {total_value}, Unique insiders: {unique_insiders}, Avg ΔOwn: {avg_own_change}%"
-            )
+            # If both value and ownership change pass, add full stock data to significant_stocks
+            significant_stocks.append({
+                'ticker': ticker,
+                'total_value': total_value,
+                'avg_own_change': avg_own_change,
+                'unique_insiders': unique_insiders
+            })
+            logging.info(f"Stock {ticker} passed filters: Total value: {total_value}, Unique insiders: {unique_insiders}, Avg ΔOwn: {avg_own_change}%")
 
         # If no stocks met both conditions, prioritize the ones with high value, even if own_change is lower
         if not significant_stocks and lower_own_change_stocks:
             # Sort lower-own-change stocks by total value in descending order
-            lower_own_change_stocks.sort(key=lambda x: x[1], reverse=True)
+            lower_own_change_stocks.sort(key=lambda x: x['total_value'], reverse=True)
             top_stock = lower_own_change_stocks[0]
-            significant_stocks.append(top_stock[0])
-            logging.info(
-                f"Prioritizing stock {top_stock[0]} based on high total value despite lower ownership change: {top_stock[2]}%"
-            )
+            significant_stocks.append(top_stock)
+            logging.info(f"Prioritizing stock {top_stock['ticker']} based on high total value despite lower ownership change: {top_stock['avg_own_change']}%")
 
         return significant_stocks
 
@@ -380,45 +381,60 @@ class TradingBot:
         self, insider_data, gain_threshold=GAIN_THRESHOLD, drop_threshold=DROP_THRESHOLD
     ):
         self.is_running = True
+        stop_buying = False  # Flag to stop buying stocks when funds are low
+
         while self.is_running:
-            significant_stocks = self.filter_significant_transactions(
-                insider_data,
-                min_value=MIN_VALUE,
-                min_insiders=MIN_INSIDERS,
-                min_own_change=MIN_OWN_CHANGE,
-            )
-
-            # Check if there are no significant stocks
-            if not significant_stocks:
-                logging.info(
-                    "No significant stocks found in this cycle. Skipping trading."
+            if not stop_buying:
+                significant_stocks = self.filter_significant_transactions(
+                    insider_data,
+                    min_value=MIN_VALUE,
+                    min_insiders=MIN_INSIDERS,
+                    min_own_change=MIN_OWN_CHANGE,
                 )
-                time.sleep(300)  # Wait for 5 minutes before repeating the cycle
-                continue
 
-            # Calculate how to divide the budget between stocks
-            total_stocks = len(significant_stocks)
-            if total_stocks > 0:
-                budget_per_stock = self.budget / total_stocks
+                if not significant_stocks:
+                    logging.info(
+                        "No significant stocks found in this cycle. Skipping trading."
+                    )
+                    time.sleep(300)  # Wait for 5 minutes before repeating the cycle
+                    continue
 
-                for ticker in significant_stocks:
+                # Sort stocks based on total_value (or any priority metric) to try higher-priority ones first
+                significant_stocks.sort(key=lambda t: t['total_value'], reverse=True)
+
+                # Try to buy stocks dynamically based on the available budget
+                for stock in significant_stocks:
+                    ticker = stock['ticker']  # Extract ticker from the stock dictionary
                     price = self.get_current_price(ticker)
-                    if self.budget > 0 and price > 0:
-                        quantity = int(budget_per_stock / price)
+                    if price > 0 and self.budget > price:
+                        # Dynamically adjust the buying power for each stock based on the remaining budget
+                        max_spend = self.budget * 0.2  # 20% of the remaining budget can be spent on each stock
+                        buying_power = min(max_spend, self.budget) / price
+                        quantity = int(buying_power)
+
                         if quantity > 0:
                             self.buy_stock(ticker, price)
                         else:
                             logging.info(f"Insufficient funds to buy {ticker} at {price}")
                     else:
-                        logging.info("Insufficient budget or price issue, skipping stock.")
+                        logging.info(f"Skipping stock {ticker} due to insufficient budget or price issue.")
 
-        # Monitor prices after attempting to buy
-        self.monitor_prices(
-            gain_threshold=gain_threshold, drop_threshold=drop_threshold
-        )
+                # If budget falls below 15% of the original budget, stop further purchases
+                if self.budget < self.original_budget * 0.15:
+                    logging.info("Budget too low to continue buying. Stopping purchases.")
+                    stop_buying = True
 
-        logging.info("Completed a trading cycle, repeating...")
-        time.sleep(300)  # Wait for 5 minutes before repeating the cycle
+            # Monitor prices after attempting to buy or if buying has stopped
+            self.monitor_prices(gain_threshold=gain_threshold, drop_threshold=drop_threshold)
+
+            # Check if budget has returned to the original budget after selling stocks
+            current_budget = self.get_budget()
+            if current_budget >= self.original_budget:
+                logging.info("Budget restored to original amount. Resuming purchases.")
+                stop_buying = False  # Resume buying if the budget is restored
+
+            logging.info("Completed a trading cycle, repeating...")
+            time.sleep(300)  # Wait for 5 minutes before repeating the cycle
 
     def stop(self):
         logging.info("Stopping the trading bot...")
